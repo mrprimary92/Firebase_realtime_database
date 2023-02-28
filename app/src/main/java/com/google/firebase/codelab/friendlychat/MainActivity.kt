@@ -58,15 +58,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // When running in debug mode, connect to the Firebase Emulator Suite.
-        // "10.0.2.2" is a special IP address which allows the Android Emulator
-        // to connect to "localhost" on the host computer. The port values (9xxx)
-        // must match the values defined in the firebase.json file.
-        if (BuildConfig.DEBUG) {
-            Firebase.database.useEmulator("10.0.2.2", 9000)
-            Firebase.auth.useEmulator("10.0.2.2", 9099)
-            Firebase.storage.useEmulator("10.0.2.2", 9199)
-        }
+//        // When running in debug mode, connect to the Firebase Emulator Suite.
+//        // "10.0.2.2" is a special IP address which allows the Android Emulator
+//        // to connect to "localhost" on the host computer. The port values (9xxx)
+//        // must match the values defined in the firebase.json file.
+//        if (BuildConfig.DEBUG) {
+//            Firebase.database.useEmulator("10.0.2.2", 9000)
+//            Firebase.auth.useEmulator("10.0.2.2", 9099)
+//            Firebase.storage.useEmulator("10.0.2.2", 9199)
+//        }
 
         // This codelab uses View Binding
         // See: https://developer.android.com/topic/libraries/view-binding
@@ -94,7 +94,8 @@ class MainActivity : AppCompatActivity() {
             .build()
         adapter = FriendlyMessageAdapter(options, getUserName())
         binding.progressBar.visibility = ProgressBar.INVISIBLE
-        manager = LinearLayoutManager(this)
+        manager = WrapContentLinearLayoutManager(this)
+//        manager = LinearLayoutManager(this)
         manager.stackFromEnd = true
         binding.messageRecyclerView.layoutManager = manager
         binding.messageRecyclerView.adapter = adapter
@@ -206,6 +207,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun putImageInStorage(storageReference: StorageReference, uri: Uri, key: String?) {
         // First upload the image to Cloud Storage
+        Log.w("MainActivity", "storage uri is: ${uri.toString()}")
         storageReference.putFile(uri)
             .addOnSuccessListener(
                 this
